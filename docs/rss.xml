@@ -1,4 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[mliebelt Starter Blog]]></title><description><![CDATA[My first blog in using Gatsby.js.]]></description><link>https://mliebelt.github.io/mliebelts-blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 28 Dec 2018 11:36:34 GMT</lastBuildDate><item><title><![CDATA[Migrating from Sqlite3 to PostgreSQL for Rails application]]></title><description><![CDATA[Current situation I have developed many years ago two Rails applications and have used them many years. I started with nearly no know-how…]]></description><link>https://mliebelt.github.io/mliebelts-blog/migration-to-pg/</link><guid isPermaLink="false">https://mliebelt.github.io/mliebelts-blog/migration-to-pg/</guid><pubDate>Sat, 22 Dec 2018 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Current situation&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[mliebelt Starter Blog]]></title><description><![CDATA[My first blog in using Gatsby.js.]]></description><link>https://mliebelt.github.io/mliebelts-blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 28 Dec 2018 12:35:15 GMT</lastBuildDate><item><title><![CDATA[Migrating from Windows based development to Docker based development]]></title><description><![CDATA[Current situation I have developed over the last 12 years or so all the time on Windows (starting with XP, then 7, and lately with Windows…]]></description><link>https://mliebelt.github.io/mliebelts-blog/rails-docker-compose/</link><guid isPermaLink="false">https://mliebelt.github.io/mliebelts-blog/rails-docker-compose/</guid><pubDate>Fri, 28 Dec 2018 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Current situation&lt;/h1&gt;
+&lt;p&gt;I have developed over the last 12 years or so all the time on Windows (starting with XP, then 7, and lately with Windows 10). And I was all the time jalous about all the nice guys that were able to develop with Linux, Mac, … &lt;/p&gt;
+&lt;p&gt;Lately I changed jobs and I am working now with Docker, Kubernetes, and a lot of nice stuff. So I wanted to give my Rails development another try. I had the following in plan:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Switch from Sqlite3 to PostgreSQL (see &lt;strong&gt;Link&lt;/strong&gt;)&lt;/li&gt;
+&lt;li&gt;Switch to a deployment that is Docker based&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So the natural selection of tools here was to use docker-compose. The following is based on some of the experiences I made in using the book “Docker for Rails Developers”.&lt;/p&gt;
+&lt;h2&gt;Dockerize the Rails application&lt;/h2&gt;
+&lt;p&gt;That was really nicely described, I just show the result I got from there.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;FROM ruby:2.5
+LABEL maintainer&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;markusliebelt@gmail.com&quot;&lt;/span&gt;
+
+RUN &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update -yqq &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -yqq --no-install-recommends nodejs
+
+COPY Gemfile* /usr/src/app/
+WORKDIR /usr/src/app
+RUN bundle &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt;
+
+COPY &lt;span class=&quot;token keyword&quot;&gt;.&lt;/span&gt; /usr/src/app/
+
+CMD &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;bin/rails&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;s&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;-e&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;production&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;-b&quot;&lt;/span&gt;, &lt;span class=&quot;token string&quot;&gt;&quot;0.0.0.0&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;What are the tricks here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The apt-get commands ensure that the base image is up-to-date all the time.&lt;/li&gt;
+&lt;li&gt;Having first the Gemfiles copied, I ensure that the expensive part (getting again all gems updated) is only done when the gems change, but not on any other change.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-b 0.0.0.0&lt;/code&gt; binds the started Rails server to all IP addresses he may have, not only localhost. So the running application is reachable from outside the container (which is of course necessary).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So by using &lt;code class=&quot;language-text&quot;&gt;docker build -t railsapp .&lt;/code&gt; (this is the root directory of your application, and the Dockerfile is created there) docker will create a new image with the name &lt;code class=&quot;language-text&quot;&gt;railsapp&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;So you are now able to run your rails app by calling &lt;code class=&quot;language-text&quot;&gt;docker run -p 3000:3000 railsapp&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Using docker-compose&lt;/h2&gt;
+&lt;p&gt;Every Rails application comes not only with a web frontend, but a database. And both have to be running, so it feels more natural to have docker manage both containers, the one for the application, and the other for the database.&lt;/p&gt;
+&lt;p&gt;To do that, &lt;code class=&quot;language-text&quot;&gt;docker-compose&lt;/code&gt; is just the right tool to do that. My final file looked like that (located in directory &lt;code class=&quot;language-text&quot;&gt;myapp&lt;/code&gt;)&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;version: &lt;span class=&quot;token string&quot;&gt;&apos;3.3&apos;&lt;/span&gt;
+
+services:
+  web:
+    build: &lt;span class=&quot;token keyword&quot;&gt;.&lt;/span&gt;
+    ports:
+      - &lt;span class=&quot;token string&quot;&gt;&quot;5001:3000&quot;&lt;/span&gt;
+    volumes:
+      - .:/usr/src/app
+    env_file: 
+      - .env/development/database
+      - .env/development/web
+  database:
+    image: postgres
+    ports:
+      - &lt;span class=&quot;token string&quot;&gt;&quot;5438:5432&quot;&lt;/span&gt;
+    env_file: 
+      - .env/development/database&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Let me explain the different parts of it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;services&lt;/code&gt; defines the different services that are managed by compose.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;web&lt;/code&gt; name given to the Rails application, will lead to &lt;code class=&quot;language-text&quot;&gt;myapp_web_1&lt;/code&gt; as the name for the image created.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;ports:&lt;/code&gt;
+&lt;code class=&quot;language-text&quot;&gt;- &amp;quot;5001:3000&amp;quot;&lt;/code&gt; publishes the Rails app run under 3000 on the port 5001&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;volumes&lt;/code&gt; provides access to the current directory inside the running Rails app. So ressources created there (under &lt;code class=&quot;language-text&quot;&gt;/usr/src/app&lt;/code&gt;) will be located in the current directory.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;database&lt;/code&gt; Uses the base image from Postgres (no separate image necessary), will lead to a container with name &lt;code class=&quot;language-text&quot;&gt;myapp_database_1&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;To be continued&lt;/strong&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Migrating from Sqlite3 to PostgreSQL for Rails application]]></title><description><![CDATA[Current situation I have developed many years ago two Rails applications and have used them many years. I started with nearly no know-how…]]></description><link>https://mliebelt.github.io/mliebelts-blog/migration-to-pg/</link><guid isPermaLink="false">https://mliebelt.github.io/mliebelts-blog/migration-to-pg/</guid><pubDate>Sat, 22 Dec 2018 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Current situation&lt;/h1&gt;
 &lt;p&gt;I have developed many years ago two Rails applications and have used them many years. I started with nearly no know-how, so I took all defaults. I was glad at that time that I did not have to manage a full blown database to run my small Rails apps.&lt;/p&gt;
 &lt;p&gt;Time has changed, and nowadays, I have docker locally running under Windows 10, with only 2 minutes work to have a current PostgreSQL server up and running. So I decided to give it a try again, and to see if it would be possible to run the applications inside a docker container, connecting to PostgreSQL. This blog post is mostly about the migration task. I will later follow up with more stories about containerizing it, and (at the end hopefully) run it on the internet to have it available all the time.&lt;/p&gt;
 &lt;p&gt;So I took the following steps:&lt;/p&gt;
