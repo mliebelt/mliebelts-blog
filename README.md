@@ -1,20 +1,12 @@
-# gatsby-starter-blog
+# mliebelts starter blog
 
-Gatsby starter for creating a blog
+This is my second try to have a starter blog on gh-pages. This time I try to use Gatsby.js for that task.
 
-Install this starter (assuming Gatsby is installed) by running from your CLI:
+## Visiting the site
 
-`gatsby new gatsby-blog https://github.com/gatsbyjs/gatsby-starter-blog`
-
-Or [view the live demo here](https://gatsby-starter-blog-demo.netlify.com/).
-
-## Running in development
-
-`gatsby develop`
+After deployment, the site should be visible under [https://mliebelt.github.io](https://mliebelt.github.io).
 
 ## Further steps
 
-* Take all content of my current blog and move it over here.
-* Ensure that the branches are set correctly for my deployment scenario.
-* Remove all things that come from starter, and are not necessary.
-* Try to give the site some reasonable styling.
+* Add from here to there additional content.
+* Find ways to mix different things here (like blog articles made in pure HTML, mix of HAML, SASS, ...)
