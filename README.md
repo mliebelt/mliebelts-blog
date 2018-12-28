@@ -4,7 +4,7 @@ This is my second try to have a starter blog on gh-pages. This time I try to use
 
 ## Visiting the site
 
-After deployment, the site should be visible under [https://mliebelt.github.io](https://mliebelt.github.io).
+After deployment, the site should be visible under [https://mliebelt.github.io/mliebelts-blog](https://mliebelt.github.io/mliebelts-blog).
 
 ## Further steps
 
