@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[mliebelt Starter Blog]]></title><description><![CDATA[My first blog in using Gatsby.js.]]></description><link>https://gatsby-starter-blog-demo.netlify.com/</link><generator>RSS for Node</generator><lastBuildDate>Fri, 28 Dec 2018 10:42:57 GMT</lastBuildDate><item><title><![CDATA[Migrating from Sqlite3 to PostgreSQL for Rails application]]></title><description><![CDATA[Current situation I have developed many years ago two Rails applications and have used them many years. I started with nearly no know-how…]]></description><link>https://gatsby-starter-blog-demo.netlify.com//migration-to-pg/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com//migration-to-pg/</guid><pubDate>Sat, 22 Dec 2018 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Current situation&lt;/h1&gt;
+&lt;p&gt;I have developed many years ago two Rails applications and have used them many years. I started with nearly no know-how, so I took all defaults. I was glad at that time that I did not have to manage a full blown database to run my small Rails apps.&lt;/p&gt;
+&lt;p&gt;Time has changed, and nowadays, I have docker locally running under Windows 10, with only 2 minutes work to have a current PostgreSQL server up and running. So I decided to give it a try again, and to see if it would be possible to run the applications inside a docker container, connecting to PostgreSQL. This blog post is mostly about the migration task. I will later follow up with more stories about containerizing it, and (at the end hopefully) run it on the internet to have it available all the time.&lt;/p&gt;
+&lt;p&gt;So I took the following steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Checking that I can have a PostgreSQL database up and running, and have a new example application connected to it.&lt;/li&gt;
+&lt;li&gt;Creating all necessary things to have the relevant databases created.&lt;/li&gt;
+&lt;li&gt;Migrating all data to the database (the production one).&lt;/li&gt;
+&lt;li&gt;Running the adapted application against the new database.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Setup PostgreSQL and Example Application&lt;/h2&gt;
+&lt;h3&gt;Setup PostgreSQL&lt;/h3&gt;
+&lt;p&gt;… as Docker container: &lt;code class=&quot;language-text&quot;&gt;docker run --name rails_db -p 5439:5432 -e POSTGRES_DB=rails_db -d postgres:9.6.8-alpine&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;What does this do?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Start a new docker container, that uses the predefined docker image named &lt;code class=&quot;language-text&quot;&gt;postgres:9.6.8-alpine&lt;/code&gt;. (The reason I use that version is that we use exactly that version at work, so feel free to use any other current version)&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Give that container the name &lt;code class=&quot;language-text&quot;&gt;rails_db&lt;/code&gt;, so it is easier later to start that container by give the name only.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Stop: &lt;code class=&quot;language-text&quot;&gt;docker stop rails_db&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Start: &lt;code class=&quot;language-text&quot;&gt;docker start rails_db&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Define the relevant resources:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the databases (I am using only 2 of the 3 in Rails)&lt;/li&gt;
+&lt;li&gt;the users&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I used pgAdmin to do it, your steps may be different here.&lt;/p&gt;
+&lt;h4&gt;Current state&lt;/h4&gt;
+&lt;p&gt;You now have a new database server named rails_db, but without any database, users, …&lt;/p&gt;
+&lt;h4&gt;Creating System Users&lt;/h4&gt;
+&lt;p&gt;To use the database, you need system users to do that.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Go to the database server.&lt;/li&gt;
+&lt;li&gt;Go to Login/Group Roles and select &lt;code class=&quot;language-text&quot;&gt;Create Login/Group Role...&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Enter the name of the user (General), the password (Definition), the privileges (Login, Create Database)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Creating Database&lt;/h4&gt;
+&lt;p&gt;Create a database by doing the following steps.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Go to the database server.&lt;/li&gt;
+&lt;li&gt;Go to Databases &gt; Create &gt; Database…&lt;/li&gt;
+&lt;li&gt;Enter as properties: name, the owner&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You should now be able to login as that user, go to the database, and create something.&lt;/p&gt;
+&lt;h3&gt;Create Example Application&lt;/h3&gt;
+&lt;p&gt;I found the &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres&quot;&gt;following recipe&lt;/a&gt; to setup a dockerized Rails app. Here are the relevant steps to just create the application locally.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;rails new myapp --database=postgresql&lt;/code&gt; Generates a new app with postgresql set as database&lt;/li&gt;
+&lt;li&gt;Go to &lt;code class=&quot;language-text&quot;&gt;database.yml&lt;/code&gt; and ensure that database, username and password are set.&lt;/li&gt;
+&lt;li&gt;Run &lt;code class=&quot;language-text&quot;&gt;rake db:setup&lt;/code&gt; and see if that runs through. If yes, your database is created, but empty.&lt;/li&gt;
+&lt;li&gt;Run &lt;code class=&quot;language-text&quot;&gt;rails g scaffold Post title:string body:text&lt;/code&gt; and again &lt;code class=&quot;language-text&quot;&gt;rake db:setup&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Run your application with &lt;code class=&quot;language-text&quot;&gt;rails server&lt;/code&gt;, and visit it under &lt;a href=&quot;localhost:3000/posts&quot;&gt;localhost:3000/posts&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Create a new blog post.&lt;/li&gt;
+&lt;li&gt;Visit your database (with pgAdmin) and see that the database is created, and one record exists in the table &lt;code class=&quot;language-text&quot;&gt;posts&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;So you have seen that the database is working, and a new Rails app is able to use that database.&lt;/p&gt;
+&lt;h2&gt;Setup the real database then&lt;/h2&gt;
+&lt;p&gt;Repeat the steps to create the real database for your application. Necessary are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create the database itself.&lt;/li&gt;
+&lt;li&gt;Create a user for that database.&lt;/li&gt;
+&lt;li&gt;Make that user the owner of the database.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Migrating the data&lt;/h2&gt;
+&lt;p&gt;Now comes the hard part. I have read a little bit about a tool named pgloader which sounded reasonable, and I have seen that this tool is available as docker container. So I took that road then. Here are the steps that were necessary for me:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Enable in docker that the volume c: is mapped.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Start in the directory of your application the command: &lt;code class=&quot;language-text&quot;&gt;docker run --rm -i -t -v c:/Users/mliebelt/dev/priv:/usr/src/apps dimitri/pgloader bash&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Remove the container after it is finished.&lt;/li&gt;
+&lt;li&gt;Map a volume of the current directory to the directory inside the container named &lt;code class=&quot;language-text&quot;&gt;/usr/src/apps&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Go inside the container and open a bash there.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Go to the directory where your sqlite3 db file is located.&lt;/li&gt;
+&lt;li&gt;Find out the IP address of your running postgresql database server. &lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Enter there the command: &lt;code class=&quot;language-text&quot;&gt;pgloader prod.db postgresql://&amp;lt;username&amp;gt;:&amp;lt;pwd&amp;gt;@&amp;lt;ip-address&amp;gt;:5439/&amp;lt;database&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;username&amp;gt;&lt;/code&gt; is the system user that has access to the database&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;pwd&amp;gt;&lt;/code&gt; is the password of that system user&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;ip-address&amp;gt;&lt;/code&gt; Local IP address of my computer, in Windows found with: &lt;code class=&quot;language-text&quot;&gt;ipconfig&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;5439: The port I have mapped the local database port from the docker container running&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;database&amp;gt;&lt;/code&gt; is the name of the database&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When executin the migration, I got the following output.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;WARNING:
+Couldn&lt;span class=&quot;token string&quot;&gt;&apos;t re-execute SBCL with proper personality flags (/proc isn&apos;&lt;/span&gt;t mounted? setuid?&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+Trying to &lt;span class=&quot;token keyword&quot;&gt;continue&lt;/span&gt; anyway.
+2018-12-22T14:29:47.069000Z LOG Migrating from &lt;span class=&quot;token comment&quot;&gt;#&amp;lt;SQLITE-CONNECTION sqlite:///usr/src/apps/minds/db/prod.db {1005F72BE3}&gt;&lt;/span&gt;
+2018-12-22T14:29:47.071000Z LOG Migrating into &lt;span class=&quot;token comment&quot;&gt;#&amp;lt;PGSQL-CONNECTION pgsql://&amp;lt;username&gt;@&amp;lt;ip-address&gt;:5439/&amp;lt;database&gt; {10061BB263}&gt;&lt;/span&gt;
+2018-12-22T14:29:47.447000Z LOG report summary reset
+             table name     errors       rows      bytes      total &lt;span class=&quot;token function&quot;&gt;time&lt;/span&gt;
+-----------------------  ---------  ---------  ---------  --------------
+                  fetch          0          0                     0.000s
+        fetch meta data          0         21                     0.033s
+         Create Schemas          0          0                     0.000s
+       Create SQL Types          0          0                     0.005s
+          Create tables          0         20                     0.056s
+         Set Table OIDs          0         10                     0.006s
+-----------------------  ---------  ---------  ---------  --------------
+                notices          0        500   205.5 kB          0.040s
+                 people          0        925   162.9 kB          0.025s
+      schema_migrations          0         22     0.2 kB          0.024s
+                  pages          0         58    49.6 kB          0.039s
+              book_rows          0        129     8.6 kB          0.065s
+               sessions          0        170    58.6 kB          0.093s
+      people_ressources          0       1129    59.2 kB          0.025s
+              citations          0          5     2.4 kB          0.009s
+          books_authors          0          0                     0.024s
+             ressources          0        982   363.6 kB          0.108s
+-----------------------  ---------  ---------  ---------  --------------
+COPY Threads Completion          0          4                     0.159s
+         Create Indexes          0         11                     0.069s
+ Index Build Completion          0         11                     0.012s
+        Reset Sequences          0          7                     0.013s
+           Primary Keys          0          8                     0.010s
+    Create Foreign Keys          0          0                     0.000s
+        Create Triggers          0          0                     0.000s
+       Install Comments          0          0                     0.000s
+-----------------------  ---------  ---------  ---------  --------------
+      Total &lt;span class=&quot;token function&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;time&lt;/span&gt;          ?       3920   910.4 kB          0.263s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I was really astonished how fast the migration ran. And I could then check the result by going directly to the database and see that it is working.&lt;/p&gt;
+&lt;h2&gt;Switch to the new database&lt;/h2&gt;
+&lt;p&gt;Everything is now ripe to be run. Only the file &lt;code class=&quot;language-text&quot;&gt;database.yml&lt;/code&gt; of the application has to be adapted. I did the following changes.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;default: &amp;amp;default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+
+development:
+  &amp;lt;&amp;lt;: *default
+  database: &amp;lt;database&amp;gt;
+  username: &amp;lt;username&amp;gt;
+  password: &amp;lt;pwd&amp;gt;
+  port: 5439
+
+# Not touched
+test:
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: db/test.sqlite3
+
+production:
+  &amp;lt;&amp;lt;: *default
+  database: &amp;lt;database&amp;gt;
+  username: &amp;lt;username&amp;gt;
+  password: &amp;lt;pwd&amp;gt;
+  port: 5439&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Caveat: I had to change the port of the database, because the default one (5432) was already taken. The application works like a charm, now I have to check how to drive it in the cloud (as docker container). But that will be another story …&lt;/p&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://forums.docker.com/t/volume-mounts-in-windows-does-not-work/10693/5&quot;&gt;https://forums.docker.com/t/volume-mounts-in-windows-does-not-work/10693/5&lt;/a&gt; How to ensure that Windows volumes can be mapped.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres&quot;&gt;https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres&lt;/a&gt; Similar tutorial to mine, with some missing parts in it.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://pgloader.readthedocs.io/en/latest/pgloader.html#target-connection-string&quot;&gt;https://pgloader.readthedocs.io/en/latest/pgloader.html#target-connection-string&lt;/a&gt; Details about the connection string to be used in the migration&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Jekyll with HAML and SASS]]></title><description><![CDATA[Working with HAML and SASS for blogging with Jekyll   I started to work with Rails version 1.2, and have migrated since numerous times.
+  In…]]></description><link>https://gatsby-starter-blog-demo.netlify.com//jekyll-haml-sass/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com//jekyll-haml-sass/</guid><pubDate>Fri, 31 Oct 2014 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Working with HAML and SASS for blogging with Jekyll&lt;/h1&gt;
+&lt;p&gt;  I started to work with Rails version 1.2, and have migrated since numerous times.
+In between, I switched from ERB and pure CSS to HAML and SASS, and liked it
+much more. So this documents the (naive) way to use HAML and SASS.&lt;/p&gt;
+&lt;h2&gt;First try&lt;/h2&gt;
+&lt;p&gt;  Started to create a file
+&lt;code class=&quot;language-text&quot;&gt;2014-10-31-jekyll-haml-sass.haml&lt;/code&gt;
+(this file) and
+entered there as usual the sparse markup of HAML. At least IntelliJ knew how
+to work with it (but the preview was not usable, so I will search for a plugin
+when being online again). As usual,  &lt;code class=&quot;language-text&quot;&gt;jekyll serve --drafts&lt;/code&gt;
+was running, and
+compiled the file when it changed.&lt;/p&gt;
+&lt;p&gt;  But the result was not to my liking:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the resulting file name was named  &lt;code class=&quot;language-text&quot;&gt;2014-10-31-jekyll-haml-sass.html&lt;/code&gt;
+(which is ok).&lt;/li&gt;
+&lt;li&gt;the layout of the file was ok, (so the embedding worked).&lt;/li&gt;
+&lt;li&gt;BUT: the content was not translated at all.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Second try&lt;/h2&gt;
+&lt;p&gt;  So i read about
+&lt;code class=&quot;language-text&quot;&gt;jekyll sass integration&lt;/code&gt; and
+&lt;code class=&quot;language-text&quot;&gt;jekyll haml integration&lt;/code&gt;
+and found the 2 plugins
+&lt;code class=&quot;language-text&quot;&gt;jekyll-sass&lt;/code&gt;
+and
+&lt;code class=&quot;language-text&quot;&gt;jekyll-haml&lt;/code&gt;. The recipe for me looked like:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Include in your file
+&lt;code class=&quot;language-text&quot;&gt;_config.yml&lt;/code&gt;
+the following statement:
+&lt;code class=&quot;language-text&quot;&gt;gems: [&amp;quot;jekyll-haml&amp;quot;, &amp;quot;jekyll-sass&amp;quot;]&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Ensure that the gems are installed, by using
+&lt;code class=&quot;language-text&quot;&gt;gem install jekyll-haml&lt;/code&gt; … or by using
+&lt;code class=&quot;language-text&quot;&gt;bundle install&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Is that the only possible way? Of course not …
+At least with SASS, you could the way which is nice described in
+&lt;code class=&quot;language-text&quot;&gt;Scalable and Modular Architecture for CSS&lt;/code&gt;
+or short SMACSS.&lt;/p&gt;
+&lt;p&gt;Run SASS in a command shell:
+%code sass —watch before:after
+where  &lt;code class=&quot;language-text&quot;&gt;before&lt;/code&gt;  and &lt;code class=&quot;language-text&quot;&gt;after&lt;/code&gt;
+are the directories that include the source SASS files, and the resulting CSS files.
+Finally, you are able to compile your files by
+&lt;code class=&quot;language-text&quot;&gt;sass -t compressed master.scss master.css&lt;/code&gt;
+into one file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Working with HAML&lt;/h2&gt;
+&lt;p&gt;  Working with HAML is now pretty straightforward. Just create new blog posts with
+the ending &lt;code class=&quot;language-text&quot;&gt;.haml&lt;/code&gt;, and you are ready to go. Don’t forget the YAML front-matter
+section in your page, this is the same compared to using markup as format.&lt;/p&gt;
+&lt;p&gt;  Every change now in the file leads to a compilation, where your jekyll-haml plugin
+is used to compile your sources. So the &lt;code class=&quot;language-text&quot;&gt;.html&lt;/code&gt; files are generated
+as usual in your &lt;code class=&quot;language-text&quot;&gt;_site&lt;/code&gt; directory.&lt;/p&gt;
+&lt;h2&gt;Working with HAML and GitHub.io&lt;/h2&gt;
+&lt;p&gt;  This is a little bit more complicated. At the moment, GitHub does not use the plugins
+you have installed on your computer locally. Therefore, when pushing your changes
+to your GitHub repository, the &lt;code class=&quot;language-text&quot;&gt;jekyll-haml&lt;/code&gt; plugin is not used,
+so you have to ensure that the compilation is done locally on your computer,
+and that you push the results to your GitHub.io repository.&lt;/p&gt;
+&lt;p&gt;  In my case, I had to change the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Instead of publishing an article by moving it from directory &lt;code class=&quot;language-text&quot;&gt;_drafts&lt;/code&gt;
+to &lt;code class=&quot;language-text&quot;&gt;_posts&lt;/code&gt;, I have to copy the resulting file (like
+&lt;code class=&quot;language-text&quot;&gt;_site/jekyll/2014/10/31/2014-10-31-jekyll-haml-sass.html&lt;/code&gt; to
+file &lt;code class=&quot;language-text&quot;&gt;jekyll/2014/10/31/jekyll-haml-sass.html&lt;/code&gt;, which is really
+error prune.&lt;/li&gt;
+&lt;li&gt;Every time I change something in a template (like &lt;code class=&quot;language-text&quot;&gt;post.html&lt;/code&gt;) which
+will result in a regeneration of all posts, I have to remember which posts
+to copy again to the resulting directory.
+As a result, I will have to use a real build process additionally to Jekyll and
+GitHub.io to get a smooth deployment process of my blog posts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Working with SASS and GitHub.io&lt;/h2&gt;
+&lt;p&gt;  The SASS integration works in a similar way to HAML:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;I started by creating from the original file &lt;code class=&quot;language-text&quot;&gt;styles.css&lt;/code&gt; the file
+&lt;code class=&quot;language-text&quot;&gt;style.scss&lt;/code&gt; (see the difference). The trick here is, that every
+CSS file is automatically legal SCSS file, so you can just rename it.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The moment I save it, the jekyll compiler (with the support of the SASS plugin)
+generates the file &lt;code class=&quot;language-text&quot;&gt;styles.css&lt;/code&gt; in the directory &lt;code class=&quot;language-text&quot;&gt;_site/stylesheets&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;So when I commit my changes in the original directory &lt;code class=&quot;language-text&quot;&gt;stylesheets&lt;/code&gt;,
+and push them then to GitHub.io, they will not be transated there.
+I has therefore to ensure that the files that were generated locally are copied then
+to the target directory, and pushed then to GitHub.io. Tedious, but there is no other
+way to ensure that you are able to work with SASS locally and have it be published on
+GitHub.io.&lt;/p&gt;
+&lt;p&gt;The story here is a little bit simpler than HAML, because CSS allows to aggregate
+the files by doing something like that in e.g. a file &lt;code class=&quot;language-text&quot;&gt;master.scss&lt;/code&gt;:
+%pre= “@import ”base”, ”states”, ”layout/twocolumn”;”&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Passwords in the company world]]></title><description><![CDATA[First problems So lets have a look at something that most people wont believe that it may be a problem anywhere. I will tell it as a story…]]></description><link>https://gatsby-starter-blog-demo.netlify.com//passwords/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com//passwords/</guid><pubDate>Thu, 16 Oct 2014 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;First problems&lt;/h1&gt;
+&lt;p&gt;So lets have a look at something that most people wont believe that it may be a problem anywhere. I will tell it as a story.&lt;/p&gt;
+&lt;p&gt;Markus comes as every morning in his office, and when he checks his emails, he is notified that his password will expire in 2 weeks. He sets a reminder (per Outlook), and forgets it all together.&lt;/p&gt;
+&lt;p&gt;2 weeks later, he is reminded and resets his password through the usual company web site. After some minutes, he has to log his screen and log-in again (using the new password). Everything is ok. Everything? Some days later, when visiting JIRA, there comes a login with a captcha. What? I have changed my password days ago, and had no problems, so what is going wrong here?&lt;/p&gt;
+&lt;p&gt;The next few days, he has to call the first-level-support for resetting his account for the company LDAP due to wrong password usage, but has no idea, what the real reason is. No problem, we are programmers, so lets debug it. What do you think, how often is the company password used day-in, day-out? Once? Dream on, the principle is not called single-sign-on (SSO), but SSOPA (single-sign-on-per-application). So depending on how many applications you are using, there are 20-30 reasons to use your password. Do you type the password in all the time? Of course not, you are lazy. So perhaps the Opera browser when resetting his session with about 30 tabs uses a cached old password. But, no, even after having closed most of them, at some time, your account is blocked again.&lt;/p&gt;
+&lt;h2&gt;The solution … (kind of)&lt;/h2&gt;
+&lt;p&gt;At the end, the real reason was two-fold.Starting IntelliJ IDEA resulted in requests to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the Subversion repository where one of the projects stored the sources. I have not actively used the project for some months, but did not suspect the starting of the session to be a problem.&lt;/li&gt;
+&lt;li&gt;the company JIRA that was mapped to the Subversion project.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;None of the 2 was of any interest to me, and digging deeper showed me that it was even worse. The mapping e.g. of JIRA was repeated in all projects, and I had to reset all of them to be sure that no old password is cached anywhere (I hope). &lt;/p&gt;
+&lt;h2&gt;A real solution (not reached yet)&lt;/h2&gt;
+&lt;p&gt;Store all passwords centrally (like in Jenkins, well most of them) as credentials. Every time you have to use some, you have to give them a name, and these credentials will only stored once per IntelliJ IDEA installation. Resetting the password there will ensure that no old cache is used.&lt;/p&gt;
+&lt;h2&gt;A real solution (more difficult)&lt;/h2&gt;
+&lt;p&gt;The silent usage of passwords may be a problem. After 5 wrong usages in a row, the account is blocked. When the first usage leads to a dialog to change the cached password, &lt;strong&gt;and blocks all other requests for passwords&lt;/strong&gt;, only then will caching passwords working well.&lt;/p&gt;
+&lt;p&gt;Good examples for tools working in that way are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Subversion: TortoiseSVN, command client&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Subversion 1.8 - Repository Dictated Configuration]]></title><description><![CDATA[Problem When you have worked in the past (as I have from at least Subversion 1.2 in 2005, a century in computer science)
+with Subversion…]]></description><link>https://gatsby-starter-blog-demo.netlify.com//svn-rdc/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com//svn-rdc/</guid><pubDate>Sat, 11 Oct 2014 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Problem&lt;/h1&gt;
+&lt;p&gt;When you have worked in the past (as I have from at least Subversion 1.2 in 2005, a century in computer science)
+with Subversion, and not only on open source projects with a few people, but with hundreds of people in big projects
+at several location, there is one (small, but nasty) problem that plagued all of us here or there.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Client side configuration is something you don’t have under control, and there is no way to push it down
+wherever the people you are working with are sitting.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Here are a few examples what may happen in your project (and no, they are not at all contrived):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A business consultant has started a new specification of a CR demanded by the customer. As usual, he does that
+by using the normal &lt;code class=&quot;language-text&quot;&gt;*.docx&lt;/code&gt; template that is used in the project. Because he is not aware of the mechanics of Subversion,
+he has not changed his client configuration. He stores the files, commits everything that was changed (as always) and goes
+home. The next day, another consultant has started to review the document, and inserted there some comments and
+changes. In the meanwhile, the original consultant has repeated and continued to work with his document.
+Now both store their document, commit it, and the second one gets an error, and when he tries to dupdate the document,
+Subversion tells him that it is not able to merge the 2 versions.&lt;/li&gt;
+&lt;li&gt;MORE TO COME&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Solution up to 1.7&lt;/h1&gt;
+&lt;p&gt;All people working in projects that use Subversion up to 1.7 have to tune their client configuration:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;enable-auto-props = yes
+*.docx = svn:needs-lock=*&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;He has to find that configuration file on its laptop in the directory &lt;code class=&quot;language-text&quot;&gt;C:\Users\&amp;lt;NAME&amp;gt;\AppData\Roaming\Subversion&lt;/code&gt;,
+or find the settings in TortoiseSVN.&lt;/p&gt;
+&lt;h1&gt;Problems with that approach&lt;/h1&gt;
+&lt;p&gt;There are numerous problems with that approach:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It is error-prune. Everyone has to do something and every change has to be replicated by everyone at the same time.&lt;/li&gt;
+&lt;li&gt;It is not multi-tenant aware. What if the people work in more than one project with different requirements for the
+client configuration? They have to build their own superset which works and fulfills all requirements at the same time.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Solution with 1.8 (TADAAAA!!!)&lt;/h1&gt;
+&lt;p&gt;With the version 1.8 this situation has now a simple solution (in most cases). It goes like that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Instead of storing the configuration in the client config file (which could be used in the future as well), you are
+now able to store the so-called repository dictated configuration (RDC) in the repository itself.&lt;/li&gt;
+&lt;li&gt;There you have to decide, where to store the properties. Files inserted in that directory or sub-directories will
+inherit these properties automatically.&lt;/li&gt;
+&lt;li&gt;Instead of inheritable properties in the past, this even works when you don’t check out the directory, that has
+defined the properties, but a sub-directory.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;p&gt;See the following references for missing details:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://subversion.apache.org/docs/release-notes/1.8.html#repos-dictated-config&quot;&gt;Apache Subversion 1.8 Release Notes&lt;/a&gt;
+Gives an overview, references some more documentation.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blogs.collab.net/subversion/repository-dictated-configuration-part-1-of-3-inheritable-properties&quot;&gt;RDC Part 1: Inheritable Properties&lt;/a&gt;
+Theory that is then needed in the 2 other blogs (see below)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blogs.collab.net/subversion/the-road-to-repository-dictated-configuration-day-2-autoprops&quot;&gt;RDC Part 2: Auto-Props&lt;/a&gt;
+Second part that makes concrete how to dictate auto-props of all clients.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blogs.collab.net/subversion/repository-dictated-configuration-day-3-global-ignores&quot;&gt;RDC Part 3: Global Ignores&lt;/a&gt;
+Last part that explains how to define global ignores.&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Jekyll -- First steps ...]]></title><description><![CDATA[Introduction This is the story what I had to do to first use Jekyll. There are of course
+numerous sources that explain that in greater…]]></description><link>https://gatsby-starter-blog-demo.netlify.com//jekyll-first-steps/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com//jekyll-first-steps/</guid><pubDate>Fri, 10 Oct 2014 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;This is the story what I had to do to first use Jekyll. There are of course
+numerous sources that explain that in greater detail. Perhaps this description
+will help someone in a similar situation as I am.&lt;/p&gt;
+&lt;h1&gt;Setup&lt;/h1&gt;
+&lt;p&gt;The documentation site &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;http://jekyllrb.com/docs/home&lt;/a&gt;
+is exactly what you want to use.
+For me, the following steps were sufficient:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install Ruby (and DevKit for Ruby).&lt;/li&gt;
+&lt;li&gt;Install Jekyll by &lt;code class=&quot;language-text&quot;&gt;gem install jekyll&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Clone your repository from GitHub, in my case &lt;a href=&quot;https://github.com/mliebelt/mliebelt.github.io&quot;&gt;https://github.com/mliebelt/mliebelt.github.io&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;I use the Git Bash as the shell, and start there in the cloned directory &lt;code class=&quot;language-text&quot;&gt;jekyll serve&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When I look now at &lt;code class=&quot;language-text&quot;&gt;localhost:4000&lt;/code&gt;, I see&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Forbidden
+no access permission to `/&amp;#39;
+WEBrick/1.3.1 (Ruby/1.9.3/2014-02-24) at localhost:4000&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I am now able to serve my first page, the &lt;code class=&quot;language-text&quot;&gt;index.html&lt;/code&gt; page that I have included in the root directory.&lt;/p&gt;
+&lt;blockquote class=&quot;lesson&quot;&gt;&lt;p&gt;Lesson 1: You are able to serve any HTML page when you use the default configuration of Jekyll. The HTML files
+    (and the necessary JavaScript and CSS files) are copied to the directory `_site` and served from there.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Then I worked on the HTML file and the styles, and the page was recreated in the background again and again.&lt;/p&gt;
+&lt;blockquote class=&quot;lesson&quot;&gt;&lt;p&gt;Lesson 2: When you serve your content locally with Jekyll, it is watched and regenerated on every change.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;I then looked if I need the configuration file &lt;code class=&quot;language-text&quot;&gt;_config.yml&lt;/code&gt;, and created it, but did not find anything I wanted
+to change compared to the defaults. The defaults are nicely documented in &lt;a href=&quot;http://jekyllrb.com/docs/configuration/&quot;&gt;http://jekyllrb.com/docs/configuration/&lt;/a&gt;,
+section “Front Matter defaults”.&lt;/p&gt;
+&lt;blockquote class=&quot;lesson&quot;&gt;&lt;p&gt;Lesson 3: Jekyll works fine only with defaults and conventions. You are able to add what you need on demand.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;And mostly without even stopping the server.&lt;/p&gt;
+&lt;h2&gt;Directory Layout&lt;/h2&gt;
+&lt;p&gt;I then read further, and found that it would be best to start only with drafts first. So I created a directory
+&lt;code class=&quot;language-text&quot;&gt;_drafts&lt;/code&gt;, and added there my first blog post (named as file &lt;code class=&quot;language-text&quot;&gt;2014-10-10-jekyll-first-steps.md&lt;/code&gt;) - namely this file.&lt;/p&gt;
+&lt;p&gt;I had then to start the server anew, and add there the flag &lt;code class=&quot;language-text&quot;&gt;--drafts&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote class=&quot;lesson&quot;&gt;&lt;p&gt;Lesson 4: When working with drafts use as command &lt;code&gt;jekyll serve --drafts&lt;/code&gt;.
+ Your files are then located as usually, in the target directory &lt;code&gt;_site/&amp;lt;year&gt;/&amp;lt;month&gt;/&amp;lt;day&gt;/&amp;lt;filename&gt;.html&lt;/code&gt; .&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;To publish posts, you should add as well a directory &lt;code class=&quot;language-text&quot;&gt;_posts&lt;/code&gt; for them.&lt;/p&gt;
+&lt;blockquote class=&quot;lesson&quot;&gt;&lt;p&gt;Lesson 5: To publish a blog post, you just have to move the file from directory &lt;code&gt;_drafts&lt;/code&gt;
+ to the directory &lt;code&gt;_posts&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Let’s try it, and start the server then without the flag &lt;code class=&quot;language-text&quot;&gt;--drafts&lt;/code&gt;. You see now the file served as usual. I have tried
+that with a file &lt;code class=&quot;language-text&quot;&gt;2014-10-10-dummy.md&lt;/code&gt;, which was served then as &lt;code class=&quot;language-text&quot;&gt;2014/10/10/dummy.html&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This is different from the format used for the draft blog posts. There the result is: &lt;code class=&quot;language-text&quot;&gt;2014/10/10/2014-10-10-dummy.html&lt;/code&gt;. Mmmmh, no idea what to do here.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Let’s stop here and repeat later with another blog to the topics that will come naturally when you want to blog with Jekyll and GitHub Pages. I think the following will be of interest for people with a similar background:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Typical directory layout and consequences&lt;/li&gt;
+&lt;li&gt;Working with drafts and publishing&lt;/li&gt;
+&lt;li&gt;Rendering options, layout, constraints&lt;/li&gt;
+&lt;li&gt;Working with different topics, tags, …&lt;/li&gt;
+&lt;li&gt;How to structure a blog web site (more or less) automatically&lt;/li&gt;
+&lt;li&gt;What are possible extensions: how to blog with e.g. HAML (instead of Markdown)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s see if that story will work in such a way … :-)&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1&gt;Problems ro remember&lt;/h1&gt;
+&lt;h2&gt;Problems with the front-loading&lt;/h2&gt;
+&lt;p&gt;From time to time, I stumble over things like …&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Regenerating: 1 files at 2014-10-10 23:44:39
+YAML Exception reading .../mliebelt.github.io/_drafts/2014-10-10-jekyll-first-steps.md:
+(&amp;lt;unknown&amp;gt;): mapping values are not allowed in this context at line 3&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;What?!? This is the content of that line:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt; title: Jekyll: First steps ...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;There seems to be a constrain on titles to not contain ’:‘. Let’s see if we can fix that.&lt;/p&gt;
+&lt;h3&gt;First try&lt;/h3&gt;
+&lt;p&gt;Try to escape it: &lt;code class=&quot;language-text&quot;&gt;title: Jekyll\: First steps ...&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Well, did not work.&lt;/p&gt;
+&lt;h3&gt;Second try&lt;/h3&gt;
+&lt;p&gt;Try to quote it: &lt;code class=&quot;language-text&quot;&gt;title: Jekyll&amp;quot;:&amp;quot; First steps ...&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Well the result is what could be expected …&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/quoted-title.png&quot; alt=&quot;Popup on changes&quot;&gt;&lt;/p&gt;
+&lt;h3&gt;Inbetween …&lt;/h3&gt;
+&lt;p&gt;Try to remove it … &lt;code class=&quot;language-text&quot;&gt;title: Jekyll -- First steps ...&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;That looks ok, have to solve that later.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Problems with generated file names&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Source: &lt;code class=&quot;language-text&quot;&gt;_drafts/2014-10-10-dummy.md&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Target: &lt;code class=&quot;language-text&quot;&gt;_site/2014/10/10/2014-10-10-dummy.html&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Source: &lt;code class=&quot;language-text&quot;&gt;_posts/2014-10-10-dummy.md&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Target: &lt;code class=&quot;language-text&quot;&gt;_site/2014/10/10/dummy.html&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item></channel></rss>
