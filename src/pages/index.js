@@ -29,8 +29,16 @@ class BlogIndex extends React.Component {
                   {title}
                 </Link>
               </h3>
-              <small>{node.frontmatter.date}</small>
+              <small>{node.frontmatter.date}
+              {node.frontmatter.tags.map(tag => {
+                const link = "/tags/" + tag
+                return (
+                  <span style={{margin: "4px"}}><a href={link}>{tag}</a></span>
+                )
+              })
+              }</small>
               <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+              
             </div>
           )
         })}
@@ -58,6 +66,7 @@ export const pageQuery = graphql`
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title
+            tags
           }
         }
       }

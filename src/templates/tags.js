@@ -1,6 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+import Bio from '../components/bio'
+import Layout from '../components/layout'
+import SEO from '../components/seo'
+import { rhythm } from '../utils/typography'
+
 // Components
 import { Link, graphql } from "gatsby"
 
@@ -12,24 +17,26 @@ const Tags = ({ pageContext, data }) => {
   } tagged with "${tag}"`
 
   return (
-    <div>
-      <h1>{tagHeader}</h1>
-      <ul>
-        {edges.map(({ node }) => {
-          const { path, title } = node.frontmatter
-          return (
-            <li key={path}>
-              <Link to={path}>{title}</Link>
-            </li>
-          )
-        })}
-      </ul>
-      {/*
-              This links to a page that does not yet exist.
-              We'll come back to it!
-            */}
-      <Link to="/tags">All tags</Link>
-    </div>
+    <Layout location="/tags" title="mliebelt Starter Blog">
+        <div>
+        <h1>{tagHeader}</h1>
+        <ul>
+            {edges.map(({ node }) => {
+            const { path, title } = node.frontmatter
+            return (
+                <li key={path}>
+                <Link to={path}>{title}</Link>
+                </li>
+            )
+            })}
+        </ul>
+        {/*
+                This links to a page that does not yet exist.
+                We'll come back to it!
+                */}
+        <Link to="/tags">All tags</Link>
+        </div>
+    </Layout>
   )
 }
 
