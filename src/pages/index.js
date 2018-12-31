@@ -33,7 +33,9 @@ class BlogIndex extends React.Component {
               {node.frontmatter.tags.map(tag => {
                 const link = "/tags/" + tag
                 return (
-                  <span style={{margin: "4px"}}><a href={link}>{tag}</a></span>
+                  <span style={{margin: "4px"}}>
+                    <Link to={link}>{tag}</Link>
+                  </span>
                 )
               })
               }</small>
