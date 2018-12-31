@@ -1,8 +1,10 @@
 ---
 title: Migrating from Windows based development to Docker based development
-tags: rails docker
+tags: ["rails",  "docker"]
 category: tools
 date: 2018-12-28
+published: true
+path: "/rails-docker-compose"
 ---
 
 # Current situation

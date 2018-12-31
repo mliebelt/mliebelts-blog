@@ -1,8 +1,10 @@
 ---
 title: Migrating from Sqlite3 to PostgreSQL for Rails application
-tags: rails sqlite3 postgresql
+tags: ["rails",  "sqlite3",  "postgresql"]
 category: tools
 date: 2018-12-22
+published: true
+path: "/migration-to-pg"
 ---
 
 # Current situation

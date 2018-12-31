@@ -1,8 +1,10 @@
 ---
 title: Subversion 1.8 - Repository Dictated Configuration
-tags: svn
+tags: ["svn"]
 category: company
 date: 2014-10-11
+published: true
+path: "/svn-rdc"
 ---
 # Problem
 

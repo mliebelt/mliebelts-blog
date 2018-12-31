@@ -2,6 +2,9 @@
 title: Jekyll with HAML and SASS
 date: 2014-10-31
 category: jekyll
+published: true
+tags: ["jekyll", "blog"]
+path: "/jekyll-haml-sass"
 ---    
 
 # Working with HAML and SASS for blogging with Jekyll

@@ -2,6 +2,9 @@
 title: Passwords in the company world
 category: company
 date: 2014-10-16
+published: true
+tags: ["company"]
+path: "/passwords"
 ---
 
 # First problems
