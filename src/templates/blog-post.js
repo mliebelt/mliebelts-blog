@@ -28,7 +28,7 @@ class BlogPostTemplate extends React.Component {
           {post.frontmatter.tags.map(tag => {
             const link = "/tags/" + tag
             return (
-              <span style={{margin: "4px"}}>
+              <span style={{margin: "4px"}} key={tag}>
                 <Link to={link}>{tag}</Link>
               </span>
             )

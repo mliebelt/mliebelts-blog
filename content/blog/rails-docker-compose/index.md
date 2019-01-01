@@ -5,6 +5,7 @@ category: tools
 date: 2018-12-28
 published: true
 path: "/rails-docker-compose"
+posttype: "blog"
 ---
 
 # Current situation

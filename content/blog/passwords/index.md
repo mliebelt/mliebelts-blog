@@ -5,6 +5,7 @@ date: 2014-10-16
 published: true
 tags: ["company"]
 path: "/passwords"
+posttype: "blog"
 ---
 
 # First problems

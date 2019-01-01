@@ -5,6 +5,7 @@ category: company
 date: 2014-10-11
 published: true
 path: "/svn-rdc"
+posttype: "blog"
 ---
 # Problem
 

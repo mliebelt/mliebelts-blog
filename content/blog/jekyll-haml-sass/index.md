@@ -5,6 +5,7 @@ category: jekyll
 published: true
 tags: ["jekyll", "blog"]
 path: "/jekyll-haml-sass"
+posttype: "blog"
 ---    
 
 # Working with HAML and SASS for blogging with Jekyll

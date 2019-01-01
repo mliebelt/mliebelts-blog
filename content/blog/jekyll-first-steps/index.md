@@ -5,6 +5,7 @@ category: jekyll
 date: 2014-10-10
 published: true
 path: "/jekyll-first-steps"
+posttype: "blog"
 ---
 # Introduction
 

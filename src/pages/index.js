@@ -11,12 +11,13 @@ class BlogIndex extends React.Component {
     const { data } = this.props;
     const siteTitle = data.site.siteMetadata.title
     const posts = data.allMarkdownRemark.edges
+    const blogs = posts.filter(function(post) { return post.node.frontmatter.posttype === 'blog'})
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" keywords={['blog', 'gatsby', 'javascript', 'react']} />
         <Bio />
-        {posts.map(({ node }) => {
+        {blogs.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
           return (
             <div key={node.fields.slug}>
@@ -33,7 +34,7 @@ class BlogIndex extends React.Component {
               {node.frontmatter.tags.map(tag => {
                 const link = "/tags/" + tag
                 return (
-                  <span style={{margin: "4px"}}>
+                  <span style={{margin: "4px"}} key={tag}>
                     <Link to={link}>{tag}</Link>
                   </span>
                 )
@@ -69,6 +70,7 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             tags
+            posttype
           }
         }
       }

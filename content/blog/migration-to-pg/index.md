@@ -5,6 +5,7 @@ category: tools
 date: 2018-12-22
 published: true
 path: "/migration-to-pg"
+posttype: "blog"
 ---
 
 # Current situation
