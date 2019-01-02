@@ -6,51 +6,44 @@ import Layout from '../components/layout'
 import SEO from '../components/seo'
 import { rhythm } from '../utils/typography'
 
-class BlogIndex extends React.Component {
+class MainIndex extends React.Component {
   render() {
     const { data } = this.props;
     const siteTitle = data.site.siteMetadata.title
-    const posts = data.allMarkdownRemark.edges
-    const blogs = posts.filter(function(post) { return post.node.frontmatter.posttype === 'blog'})
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" keywords={['blog', 'gatsby', 'javascript', 'react']} />
         <Bio />
-        {blogs.map(({ node }) => {
-          const title = node.frontmatter.title || node.fields.slug
-          return (
-            <div key={node.fields.slug}>
-              <h3
-                style={{
-                  marginBottom: rhythm(1 / 4),
-                }}
-              >
-                <Link style={{ boxShadow: 'none' }} to={node.fields.slug}>
-                  {title}
-                </Link>
-              </h3>
-              <small>{node.frontmatter.date}
-              {node.frontmatter.tags.map(tag => {
-                const link = "/tags/" + tag
-                return (
-                  <span style={{margin: "4px"}} key={tag}>
-                    <Link to={link}>{tag}</Link>
-                  </span>
-                )
-              })
-              }</small>
-              <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-              
-            </div>
-          )
-        })}
+        <Link to="/books" style={{marginRight: "20px"}}>All Books</Link>
+        <Link to="/blogs">All Blogs</Link>
+        <h1>To blog or not to blog ...</h1>
+        <div>Years ago, I tried to start blogging by using Jekyll and Github pages, and did that for some
+          time. But it didn't feel right, and so I left it. Then I heard about Gatsby.js, and this
+          sounded like an interesting solution. And it used React, and there was the pressure to learn
+          some React for my work.
+        </div>
+        <div>So I moved my old blog to the new structure, and it was pretty easy to integrate tags,
+          define different kind of blog posts, ... 
+        </div>
+        <div>The current categories are:
+          <ul>
+            <li><Link to="/books">Books</Link> Books that I read from time
+            to time, mostly fantasy and some crime. And because most of the books I read are written in
+            German, my pages are in German as well.
+            </li>
+            <li>
+            <Link to="/blogs">Blogs</Link>  Mostly tech related, tags may help to find interesting topics in that. Not sure if if
+              will continue doing that.
+            </li>
+          </ul>
+        </div>
       </Layout>
     )
   }
 }
 
-export default BlogIndex
+export default MainIndex
 
 export const pageQuery = graphql`
   query {

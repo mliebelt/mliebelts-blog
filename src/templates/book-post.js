@@ -34,6 +34,7 @@ class BookPostTemplate extends React.Component {
             )
           })
           }
+          <Link to="/books">All Books</Link>
         </p>
         <div>
           <img style={{float: "left", marginRight: rhythm(1)}} src={post.frontmatter.cover.publicURL} width="200px"></img>

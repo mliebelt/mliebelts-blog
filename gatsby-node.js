@@ -58,11 +58,15 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
         books.forEach((book, index) => {
+          const previous = index === books.length - 1 ? null : books[index + 1].node;
+          const next = index === 0 ? null : books[index - 1].node;
           createPage({
             path: book.node.fields.slug,
             component: bookTemplate,
             context: {
-              slug: book.node.fields.slug
+              slug: book.node.fields.slug,
+              previous,
+              next,
             }
           })
         })
