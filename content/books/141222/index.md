@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Matt Haig"
 cover: "./ich-menschen.png"
+isbn: "978-3423216043"
 tags:
   - "fantasy"
 ---

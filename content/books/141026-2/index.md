@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Christoph Marzi"
 cover: "./memory.png"
+isbn: "978-3401504520"
 tags:
   - "fantasy"
 ---

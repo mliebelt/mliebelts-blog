@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Sergej Lukianenko"
 cover: "./waechternacht.png"
+isbn: "978-3453530805"
 tags:
   - "fantasy"
 ---

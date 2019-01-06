@@ -4,6 +4,7 @@ import { Link, graphql } from 'gatsby'
 import Bio from '../components/bio'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
+import Author from '../components/author'
 import { rhythm } from '../utils/typography'
 
 class BookIndex extends React.Component {
@@ -11,11 +12,11 @@ class BookIndex extends React.Component {
     const { data } = this.props;
     const siteTitle = data.site.siteMetadata.title
     const posts = data.allMarkdownRemark.edges
-    const books = posts.filter(function(post) { return post.node.frontmatter.posttype === 'book'})
+    const books = posts.filter(function(post) { return post.node.frontmatter.posttype === 'book' && ! post.node.frontmatter.draft})
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="All posts" keywords={['blog', 'gatsby', 'javascript', 'react']} />
+        <SEO title="All books" keywords={['book']} />
         <Bio />
         <Link to="/blogs">All Blogs</Link>
         {books.map(({ node }) => {
@@ -27,7 +28,8 @@ class BookIndex extends React.Component {
                   marginBottom: rhythm(1 / 4),
                 }}
               >
-                <Link style={{ boxShadow: 'none' }} to={node.fields.slug}>
+                <Author>{node.frontmatter.author}</Author>:
+                <Link style={{ boxShadow: '2px 2px 3px #118888', padding: '2px', lineHeight:  '1.4'}} to={node.fields.slug}>
                   {title}
                 </Link>
               </h3>
@@ -71,6 +73,8 @@ export const pageQuery = graphql`
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title
+            author
+            draft
             tags
             posttype
             cover {

@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Gavin Extence"
 cover: "./extence.png"
+isbn: "978-3734100987"
 tags:
   - "fantasy"
   - "roman"

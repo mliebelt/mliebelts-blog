@@ -1,5 +1,5 @@
 ---
-title: "Scalable and Modular Architecture for CSS"
+title: "Scalble and Modular Arachitecture for CSS"
 date: "2014-11-02"
 layout: post
 path: "/141102"
@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Jonathan Snook"
 cover: "./smacss.png"
+isbn: "978-0985632106"
 tags:
   - "css"
   - "web"

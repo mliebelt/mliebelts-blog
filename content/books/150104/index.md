@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Sergej Lukianenko"
 cover: "./waechtertag.png"
+isbn: "978-3453532007"
 tags:
   - "fantasy"
 ---

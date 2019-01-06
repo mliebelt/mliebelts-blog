@@ -4,6 +4,8 @@ import { Link, graphql } from 'gatsby'
 import Bio from '../components/bio'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
+import Author from '../components/author'
+import Isbn from '../components/isbn'
 import { rhythm, scale } from '../utils/typography'
 
 class BookPostTemplate extends React.Component {
@@ -15,7 +17,7 @@ class BookPostTemplate extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title={post.frontmatter.title} description={post.excerpt} />
-        <h1>{post.frontmatter.title}</h1>
+        <h1><Author>{post.frontmatter.author}</Author>: {post.frontmatter.title} </h1>
         <p
           style={{
             ...scale(-1 / 5),
@@ -35,6 +37,7 @@ class BookPostTemplate extends React.Component {
           })
           }
           <Link to="/books">All Books</Link>
+          <Isbn>{post.frontmatter.isbn}</Isbn>
         </p>
         <div>
           <img style={{float: "left", marginRight: rhythm(1)}} src={post.frontmatter.cover.publicURL} width="200px"></img>
@@ -94,8 +97,10 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
+        author
         date(formatString: "MMMM DD, YYYY")
         tags
+        isbn
         cover {
           publicURL
         }

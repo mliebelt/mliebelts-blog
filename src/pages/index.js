@@ -13,7 +13,7 @@ class MainIndex extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="All posts" keywords={['blog', 'gatsby', 'javascript', 'react']} />
+        <SEO title="All posts" />
         <Bio />
         <Link to="/books" style={{marginRight: "20px"}}>All Books</Link>
         <Link to="/blogs">All Blogs</Link>

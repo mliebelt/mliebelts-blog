@@ -9,6 +9,7 @@ exports.createPages = ({ graphql, actions }) => {
     const blogTemplate = path.resolve('./src/templates/blog-post.js')
     const tagTemplate = path.resolve('./src/templates/tags.js')
     const bookTemplate = path.resolve('./src/templates/book-post.js')
+    const authorTemplate = path.resolve('./src/templates/author.js')
     resolve(
       graphql(
         `
@@ -24,6 +25,7 @@ exports.createPages = ({ graphql, actions }) => {
                     path
                     tags
                     posttype
+                    author
                   }
                 }
               }
@@ -89,6 +91,19 @@ exports.createPages = ({ graphql, actions }) => {
             component: tagTemplate,
             context: {
               tag,
+            },
+          })
+        })
+
+        // Authors
+        let authors = []
+        books.forEach( edge => { authors.push(edge.node.frontmatter.author) })
+        authors.forEach(author => {
+          createPage({
+            path: `/authors/${_.kebabCase(author)}`,
+            component: authorTemplate,
+            context: {
+              author,
             },
           })
         })

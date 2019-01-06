@@ -1,5 +1,5 @@
 ---
-title: "Die Köngismörder-Chronik"
+title: "Der Name des Windes"
 date: "2015-08-21"
 layout: post
 path: "/150821"
@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Patrick Rothfuss"
 cover: "./koenigsmoerder.png"
+isbn: "978-3608938159"
 tags:
   - "fantasy"
 ---

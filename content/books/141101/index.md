@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Amdreas Eschbach"
 cover: "./haarteppich.png"
+isbn: "978-3404206971"
 tags:
   - "fantasy"
 ---

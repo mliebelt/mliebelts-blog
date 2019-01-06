@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Stephanie Frey"
 cover: "./verstummten.png"
+isbn: "978-3453409798"
 tags:
   - "krimi"
   - "roman"

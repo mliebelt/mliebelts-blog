@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Cassandra Clare"
 cover: "./clockwork-angel.png"
+isbn: "978-3401507996"
 tags:
   - "fantasy"
 ---

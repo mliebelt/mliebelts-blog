@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Tad Williams"
 cover: "traumjaeger.png"
+isbn: "978-3608938319"
 tags:
   - "roman"
   - "fantasy"

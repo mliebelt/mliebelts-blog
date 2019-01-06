@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Ursula Poznanski"
 cover: "./vernichteten.png"
+isbn: "978-3785579220"
 tags:
   - "fantasy"
 ---

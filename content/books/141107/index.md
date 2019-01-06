@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Christoph Marzi"
 cover: "imagery.png"
+isbn: "978-3867621076"
 tags:
   - "roman"
 ---

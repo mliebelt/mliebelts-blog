@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Robin Sloan"
 cover: "penumbra.png"
+isbn: "978-3453418455"
 tags:
   - "roman"
 ---

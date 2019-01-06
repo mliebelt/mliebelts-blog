@@ -7,6 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Stephan R. Bellern"
 cover: "./weltausstaub.png"
+isbn: "978-3800095537"
 tags:
   - "fantasy"
 ---
