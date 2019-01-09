@@ -43,7 +43,9 @@ class BookIndex extends React.Component {
                 )
               })
               }</small>
-              <img style={{float: "left", marginRight: rhythm(1)}} src={node.frontmatter.cover.publicURL} width="80px"></img>
+              <Link to={node.fields.slug}>
+                <img style={{float: "left", marginRight: rhythm(1)}} src={node.frontmatter.cover.publicURL} width="80px"></img>
+              </Link>
               <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
               <div style={{clear: "both"}}></div>
             </div>

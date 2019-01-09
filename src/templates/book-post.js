@@ -17,6 +17,7 @@ class BookPostTemplate extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title={post.frontmatter.title} description={post.excerpt} />
+        <Link to="/books">All Books</Link>
         <h1><Author>{post.frontmatter.author}</Author>: {post.frontmatter.title} </h1>
         <p
           style={{
@@ -27,6 +28,9 @@ class BookPostTemplate extends React.Component {
           }}
         >
           {post.frontmatter.date}
+          <Isbn>{post.frontmatter.isbn}</Isbn>
+          <br/>
+          Tags: 
           {post.frontmatter.tags.map(tag => {
             const link = "/tags/" + tag
             return (
@@ -36,8 +40,7 @@ class BookPostTemplate extends React.Component {
             )
           })
           }
-          <Link to="/books">All Books</Link>
-          <Isbn>{post.frontmatter.isbn}</Isbn>
+          
         </p>
         <div>
           <img style={{float: "left", marginRight: rhythm(1)}} src={post.frontmatter.cover.publicURL} width="200px"></img>
