@@ -8,14 +8,31 @@ import { Link, graphql } from "gatsby"
 
 const Authors = ({ pageContext, data }) => {
   const { tag } = pageContext
-  const { edges } = data.allMarkdownRemark
-  console.log(edges)
+  const { edges: books } = data.books
+  let author = data.author
+  let authorDesc
+  if (author) {
+    author = data.author.edges[0].node.frontmatter
+    authorDesc = data.author.edges[0].node.html
+  } 
+  //console.log(books)
+  console.log(author)
   return (
     <Layout location="/authors" title="mliebelt Starter Blog">
         <div>
-        <h1>Author: {edges[0].node.frontmatter.author}</h1>
+        <h1>Author: {books[0].node.frontmatter.author}</h1>
+        {author && (
+          <div>
+            { author.homepage &&
+            <div><a href={author.homepage} target="_blank">Home Page</a></div>}
+            { author.wiki &&
+            <div><a href={author.wiki} target="_blank">Wikipedia</a></div>}
+            <div dangerouslySetInnerHTML={{ __html: authorDesc }} />
+          </div>
+        )
+        }
         <ul>
-            {edges.map(({ node }) => {
+            {books.map(({ node }) => {
             const { path, title } = node.frontmatter
             return (
                 <li key={path}>
@@ -39,7 +56,7 @@ Authors.propTypes = {
     author: PropTypes.string.isRequired,
   }),
   data: PropTypes.shape({
-    allMarkdownRemark: PropTypes.shape({
+    books: PropTypes.shape({
       edges: PropTypes.arrayOf(
         PropTypes.shape({
           node: PropTypes.shape({
@@ -59,7 +76,7 @@ export default Authors
 
 export const pageQuery = graphql`
   query($author: String) {
-    allMarkdownRemark(
+    books: allMarkdownRemark(
       limit: 2000
       sort: { fields: [frontmatter___date], order: DESC }
       filter: {
@@ -76,5 +93,24 @@ export const pageQuery = graphql`
         }
       }
     }
+    author: allMarkdownRemark(
+      limit: 1
+      filter: {
+        frontmatter: { name: { eq: $author},
+        posttype: { eq: "author"} }
+      }) {
+        edges {
+          node {
+            html
+            frontmatter {
+              name
+              homepage
+              wiki
+              posttype
+              birthday
+            }
+          }
+        }
+      }
   }
   `
