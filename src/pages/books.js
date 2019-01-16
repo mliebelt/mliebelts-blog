@@ -4,7 +4,7 @@ import { Link, graphql } from 'gatsby'
 import Bio from '../components/bio'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
-import Author from '../components/author'
+import Book from '../components/book'
 import { rhythm } from '../utils/typography'
 
 class BookIndex extends React.Component {
@@ -20,42 +20,24 @@ class BookIndex extends React.Component {
         <Bio />
         <Link to="/blogs">All Blogs</Link>
         {books.map(({ node }) => {
+          console.log(node)
           const title = node.frontmatter.title || node.fields.slug
+    
           return (
-            <div key={node.fields.slug}>
-              <h3
-                style={{
-                  marginBottom: rhythm(1 / 4),
-                }}
-              >
-                <Author>{node.frontmatter.author}</Author>:
-                <Link style={{ boxShadow: '2px 2px 3px #118888', padding: '2px', lineHeight:  '1.4'}} to={node.fields.slug}>
-                  {title}
-                </Link>
-              </h3>
-              <small>{node.frontmatter.date}
-              {node.frontmatter.tags.map(tag => {
-                const link = "/tags/" + tag
-                return (
-                  <span style={{margin: "4px"}} key={tag}>
-                    <Link to={link}>{tag}</Link>
-                  </span>
-                )
-              })
-              }</small>
-              <Link to={node.fields.slug}>
-                <img style={{float: "left", marginRight: rhythm(1)}} src={node.frontmatter.cover.publicURL} width="80px"></img>
-              </Link>
-              <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-              <div style={{clear: "both"}}></div>
-            </div>
+            <Book 
+              title={title} 
+              author={node.frontmatter.author}
+              date={node.frontmatter.date}
+              tags={node.frontmatter.tags}
+              publicURL={node.frontmatter.cover.publicURL}
+              link={node.fields.slug}
+              excerpt={node.excerpt}></Book>
           )
         })}
       </Layout>
     )
   }
 }
-
 export default BookIndex
 
 export const pageQuery = graphql`

@@ -5,6 +5,7 @@ import Layout from '../components/layout'
 
 // Components
 import { Link, graphql } from "gatsby"
+import Book from '../components/book'
 
 const Authors = ({ pageContext, data }) => {
   const { tag } = pageContext
@@ -33,11 +34,16 @@ const Authors = ({ pageContext, data }) => {
         }
         <ul>
             {books.map(({ node }) => {
-            const { path, title } = node.frontmatter
+            const { title } = node.frontmatter
             return (
-                <li key={path}>
-                <Link to={path}>{title}</Link>
-                </li>
+              <Book 
+                title={title} 
+                author={node.frontmatter.author}
+                date={node.frontmatter.date}
+                tags={node.frontmatter.tags}
+                publicURL={node.frontmatter.cover.publicURL}
+                link={node.fields.slug}
+                excerpt={node.excerpt}></Book>
             )
             })}
         </ul>
@@ -85,10 +91,19 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
+          excerpt
+          fields {
+            slug
+          }
           frontmatter {
+            date
             title
             path
             author
+            tags
+            cover {
+              publicURL
+            }
           }
         }
       }
