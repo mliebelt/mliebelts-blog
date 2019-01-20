@@ -92,6 +92,7 @@ export const pageQuery = graphql`
       frontmatter: { tags: { in: [$tag] }, posttype: { eq: "book"} }
     }
     ) {
+      totalCount
       edges {
         node {
           excerpt
