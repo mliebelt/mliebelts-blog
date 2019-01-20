@@ -22,6 +22,7 @@ const Tags = ({ pageContext, data }) => {
   let books = data.books
   if (books) {
     books = books.edges
+    totalCount = data.books.totalCount
   }
   const tagHeader = `${totalCount} post${
     totalCount === 1 ? "" : "s"
