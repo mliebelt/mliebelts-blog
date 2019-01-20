@@ -8,10 +8,21 @@ import { rhythm } from '../utils/typography'
 
 // Components
 import { Link, graphql } from "gatsby"
+import Book from '../components/book'
+
 
 const Tags = ({ pageContext, data }) => {
   const { tag } = pageContext
-  const { edges, totalCount } = data.allMarkdownRemark
+  let tags = data.tags
+  let totalCount, path = null
+  if (data.tags) {
+    tags = data.tags.edges
+    totalCount = data.tags.totalCount
+  }
+  let books = data.books
+  if (books) {
+    books = books.edges
+  }
   const tagHeader = `${totalCount} post${
     totalCount === 1 ? "" : "s"
   } tagged with "${tag}"`
@@ -20,21 +31,30 @@ const Tags = ({ pageContext, data }) => {
     <Layout location="/tags" title="mliebelt Starter Blog">
         <div>
         <h1>{tagHeader}</h1>
-        <ul>
-            {edges.map(({ node }) => {
-            const { path, title } = node.frontmatter
+        <Link to="/tags">All tags</Link>
+        {books && 
+        books.map(({ node }) => {
+            const { title } = node.frontmatter
             return (
-                <li key={path}>
-                <Link to={path}>{title}</Link>
-                </li>
+              <Book key={title}
+                title={title} 
+                author={node.frontmatter.author}
+                date={node.frontmatter.date}
+                tags={node.frontmatter.tags}
+                publicURL={node.frontmatter.cover.publicURL}
+                link={node.fields.slug}
+                excerpt={node.excerpt}></Book>
             )
             })}
-        </ul>
-        {/*
-                This links to a page that does not yet exist.
-                We'll come back to it!
-                */}
-        <Link to="/tags">All tags</Link>
+          {tags &&
+          tags.map(({ node }) =>  {
+            const { title } = node.frontmatter
+            return (
+                <div key={node.frontmatter.path}>
+                <Link to={node.frontmatter.path}>{title}</Link>
+                </div>
+            )
+          })}
         </div>
     </Layout>
   )
@@ -65,15 +85,42 @@ export default Tags
 
 export const pageQuery = graphql`
   query($tag: String) {
-    allMarkdownRemark(
+    books: allMarkdownRemark(
       limit: 2000
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { in: [$tag] } } }
+      filter: {
+      frontmatter: { tags: { in: [$tag] }, posttype: { eq: "book"} }
+    }
+    ) {
+      edges {
+        node {
+          excerpt
+          fields {
+            slug
+          }
+          frontmatter {
+            date(formatString: "DD. MM. YYYY")
+            title
+            path
+            author
+            tags
+            cover {
+              publicURL
+            }
+          }
+        }
+      }
+    }
+    tags: allMarkdownRemark(
+      limit: 2000
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { frontmatter: { tags: { in: [$tag] }, posttype: { eq: "blog"} } }
     ) {
       totalCount
       edges {
         node {
           frontmatter {
+            posttype
             title
             path
           }

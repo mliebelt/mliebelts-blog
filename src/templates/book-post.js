@@ -101,7 +101,7 @@ export const pageQuery = graphql`
       frontmatter {
         title
         author
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "DD. MM. YYYY")
         tags
         isbn
         cover {

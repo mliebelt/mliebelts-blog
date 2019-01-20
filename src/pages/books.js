@@ -19,8 +19,10 @@ class BookIndex extends React.Component {
         <SEO title="All books" keywords={['book']} />
         <Bio />
         <Link to="/blogs">All Blogs</Link>
-        {books.map(({ node }) => {
-          console.log(node)
+        <h1>All Books</h1>
+        {
+          books.map(({ node }) => {
+          //console.log(node)
           const title = node.frontmatter.title || node.fields.slug
     
           return (
@@ -55,10 +57,10 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "MMMM DD, YYYY")
+            date(formatString: "DD. MM. YYYY")
             title
+            path
             author
-            draft
             tags
             posttype
             cover {

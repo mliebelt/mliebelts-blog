@@ -34,10 +34,12 @@ const Authors = ({ pageContext, data }) => {
         }
         <ul>
             {books.map(({ node }) => {
+              // console.log("for author: " + node.frontmatter.author)
+              console.log(node)
             const { title } = node.frontmatter
             return (
-              <Book 
-                title={title} 
+              <Book key={title}
+                title={title}
                 author={node.frontmatter.author}
                 date={node.frontmatter.date}
                 tags={node.frontmatter.tags}
@@ -86,7 +88,7 @@ export const pageQuery = graphql`
       limit: 2000
       sort: { fields: [frontmatter___date], order: DESC }
       filter: {
-      frontmatter: { author: { eq: $author}}
+      frontmatter: { author: { eq: $author}, posttype: { eq: "book"}}
     }
     ) {
       edges {
