@@ -10,6 +10,7 @@ cover: "./waechternacht.png"
 isbn: "978-3453530805"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 # Wächter der Nacht
 

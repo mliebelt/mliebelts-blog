@@ -10,6 +10,7 @@ cover: "./goldene-augen.png"
 isbn: "978-3841500915"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 
 # Schöne Jugendbuchreihe

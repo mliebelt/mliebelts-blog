@@ -1,0 +1,1 @@
+{"data":{"books":null,"tags":{"totalCount":2,"edges":[{"node":{"frontmatter":{"posttype":"blog","title":"Jekyll with HAML and SASS","path":"/jekyll-haml-sass"}}},{"node":{"frontmatter":{"posttype":"blog","title":"Jekyll -- First steps ...","path":"/jekyll-first-steps"}}}]},"tag":null},"pageContext":{"tag":"blog"}}

@@ -10,6 +10,7 @@ cover: "./schrei-vogel.png"
 isbn: "978-1477808986"
 tags:
   - "krimi"
+  - "reihe"
 ---
 
 # Schauriger Krimi

@@ -10,6 +10,7 @@ cover: "./drachenreiter.png"
 isbn: "B01MQX4QSI"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 
 # Start einer vielbändigen Saga

@@ -10,6 +10,7 @@ cover: "./vernichteten.png"
 isbn: "978-3785579220"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 # Letzter Teil einer Trilogie
 

@@ -10,6 +10,7 @@ cover: "./kriegsklingen.png"
 isbn: "978-3453532519"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 
 # Start der Klingensaga

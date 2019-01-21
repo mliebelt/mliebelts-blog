@@ -16,10 +16,10 @@ class BookIndex extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="All books" keywords={['book']} />
+        <SEO title="Alle Bücher" keywords={['book']} />
         <Bio />
         <Link to="/blogs">All Blogs</Link>
-        <h1>All Books</h1>
+        <h1>Alle Bücher</h1>
         {
           books.map(({ node }) => {
           //console.log(node)

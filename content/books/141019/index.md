@@ -10,6 +10,7 @@ cover: "./dunkle-gebete.png"
 isbn: "978-3442479429"
 tags:
   - "krimi"
+  - "reihe"
 ---
 # Krimi mit Bezug zu Jack the Ripper
 

@@ -11,6 +11,7 @@ draft: false
 isbn: "978-3404208883"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 
 # Zweiter Teil der Bibliothekare

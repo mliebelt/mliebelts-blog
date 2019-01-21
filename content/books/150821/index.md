@@ -10,6 +10,7 @@ cover: "./koenigsmoerder.png"
 isbn: "978-3608938159"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 
 # Fantasy at its best

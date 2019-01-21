@@ -15,7 +15,7 @@ class MainIndex extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" />
         <Bio />
-        <Link to="/books" style={{marginRight: "20px"}}>All Books</Link>
+        <Link to="/books" style={{marginRight: "20px"}}>Alle Bücher</Link>
         <Link to="/blogs">All Blogs</Link>
         <h1>To blog or not to blog ...</h1>
         <div>Years ago, I tried to start blogging by using Jekyll and Github pages, and did that for some

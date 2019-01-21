@@ -98,7 +98,7 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            date
+            date(formatString: "DD. MM. YYYY")
             title
             path
             author
@@ -113,8 +113,9 @@ export const pageQuery = graphql`
     author: allMarkdownRemark(
       limit: 1
       filter: {
-        frontmatter: { name: { eq: $author},
-        posttype: { eq: "author"} }
+        frontmatter: { 
+          name: { eq: $author},
+          posttype: { eq: "author"} }
       }) {
         edges {
           node {

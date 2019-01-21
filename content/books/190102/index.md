@@ -10,6 +10,7 @@ cover: "./magische-feder.png"
 isbn: "978-3740735371"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 
 # Ein Schnäppchen von Amazon

@@ -10,6 +10,7 @@ cover: "./clockwork-angel.png"
 isbn: "978-3401507996"
 tags:
   - "fantasy"
+  - "reihe"
 ---
 # City of ...  geht weiter
 

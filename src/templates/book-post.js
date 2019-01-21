@@ -17,7 +17,7 @@ class BookPostTemplate extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title={post.frontmatter.title} description={post.excerpt} />
-        <Link to="/books">All Books</Link>
+        <Link to="/books">Alle Bücher</Link>
         <h1><Author>{post.frontmatter.author}</Author>: {post.frontmatter.title} </h1>
         <p
           style={{

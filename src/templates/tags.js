@@ -13,6 +13,7 @@ import Book from '../components/book'
 
 const Tags = ({ pageContext, data }) => {
   const { tag } = pageContext
+  const tag_page = data.tag
   let tags = data.tags
   let totalCount, path = null
   if (data.tags) {
@@ -33,6 +34,12 @@ const Tags = ({ pageContext, data }) => {
         <div>
         <h1>{tagHeader}</h1>
         <Link to="/tags">All tags</Link>
+        {
+          tag_page && (
+            <div dangerouslySetInnerHTML={{ __html: tag_page.edges[0].node.html }} />
+          )
+          
+        }
         {books && 
         books.map(({ node }) => {
             const { title } = node.frontmatter
@@ -129,5 +136,23 @@ export const pageQuery = graphql`
         }
       }
     }
+    tag: allMarkdownRemark(
+      limit: 1
+      filter: {
+        frontmatter: { 
+          name: { eq: $tag},
+          posttype: { eq: "tag"} }
+      }) {
+        edges {
+          node {
+            html
+            frontmatter {
+              name
+              posttype
+            }
+          }
+        }
+      }
   }
+
   `
