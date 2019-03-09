@@ -19,4 +19,4 @@ Was will man mehr. Das Buch war auf einer Auswahlliste eines Fantasy-Preises fü
 
 Der Rahmen der Handlung ist folgender: Eine junge Adlige soll zur Braut der Gottkaiserin gemacht werden. Doch sie wehrt sich, und flieht, wird entführt, entkommt wieder, ... Am Ende sind ein Krieger aus vergangener Zeit, eine Alleshändlerin, die nach 3 Jahren Gefangenschaft freikam, der Soldat und Freund der Adligen, und zwei Roboter auf der Flucht vor dem Orden und gleichzeitig vor dem Onkel der Adligen.
 
-Das Ende soll nicht verraten werden, klar ist, dass es weiter gehen wird. Und ich werde auch den zweiten Band (Hexenmacht) mir baldmöglichst zu Gemüte führen.
+Das Ende soll nicht verraten werden, klar ist, dass es weiter gehen wird. Und ich werde auch den zweiten Band (Hexenmacht) mir baldmöglichst zu Gemüte führen.we
