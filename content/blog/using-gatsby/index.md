@@ -43,4 +43,5 @@ If you want to deploy on Github, you have to move your blog into the directory `
 
 I faced problems here or there:
 
-* I had problems deploying the production version, when the directory `.cache` was not cleaned before. So I did that regularily.
+* I had problems deploying the production version, when the directory `.cache` was not cleaned before. So I did that regularly.
+* And I had the problem to find all new resources I had to push, so look twice to not see missing documents, images, ...
