@@ -9,6 +9,7 @@ import Author from '../components/author'
 class Book extends React.Component {
     render() {
         const { link, date, tags, publicURL, excerpt, author, title } = this.props
+        const realURL = publicURL.startsWith('/mliebelts-blog') ? publicURL : withPrefix(publicURL)
         return (
         <div key={link}>
             <h3
@@ -32,7 +33,7 @@ class Book extends React.Component {
             })
             }</small>
             <Link to={link}>
-            <img style={{float: "left", marginRight: rhythm(1)}} src={withPrefix(publicURL)} width="80px"></img>
+            <img style={{float: "left", marginRight: rhythm(1)}} src={realURL} width="80px"></img>
             </Link>
             <p dangerouslySetInnerHTML={{ __html: excerpt }} />
             <div style={{clear: "both"}}></div>
