@@ -16,7 +16,7 @@ tags:
 # A fresh approach to organizing CSS
 
 What a mouthful of a title! I heard about it in the Ruby Rogues session
-<a src="http://devchat.tv/ruby-rogues/171-rr-evaluating-yourself">Evaluating Yourself</a>
+[Evaluating Yourself](http://devchat.tv/ruby-rogues/171-rr-evaluating-yourself)
 and decided: I have to have this book. I have read in it here or there,
 and decided to try it out with this new blog thing I am doing now.
 
