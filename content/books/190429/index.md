@@ -18,4 +18,4 @@ Mich hat schier der Schlag getroffen, als ich das eBook auf meinem Reader das er
 
 Richard hat vor Jahren mit internationalen Partnern ein Unternehmen gegründet, das ein Online-Spiel produziert, aber im Wesentlichen darüber Gelder zu waschen erlaubt. Beteiligt ist dabei seine Nichte, die sich um spezische Aspekte des Spiels kümmert. Ihr (inzwischen ehemaliger) Freund ist auch irgendwie involviert, und sorgt dafür, dass die russische Mafia mitmischt. Und als noch Hacker Teile des Spiels übernehmen, und Gelder erpressen, ist die Gemengelage vollständig.
 
-Das ganze liest sich gut, wenn es auch (bei ~1100 Seiten) die eine oder andere Länge hat. 
+Das ganze liest sich gut, wenn es auch (bei ~1100 Seiten) die eine oder andere Länge hat. Das Ende zog sich dann doch ein wenig, und war Ende (für mich) wenig überraschend. Aber vielleicht ist das auch zu viel verlangt ... :-)
