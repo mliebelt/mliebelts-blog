@@ -2,6 +2,8 @@
 
 This is my second try to have a starter blog on gh-pages. This time I try to use Gatsby.js for that task.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dea93ea7-a2ac-4b83-aea7-bf5c50892ef1/deploy-status)](https://app.netlify.com/sites/mliebelts-blog/deploys)
+
 ## Visiting the site
 
 After deployment, the site should be visible under [https://mliebelt.github.io/mliebelts-blog](https://mliebelt.github.io/mliebelts-blog).
