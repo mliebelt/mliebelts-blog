@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
+import { Disqus, CommentCount } from 'gatsby-plugin-disqus'
 
 import Bio from '../components/bio'
 import Layout from '../components/layout'
@@ -9,6 +10,10 @@ import { rhythm, scale } from '../utils/typography'
 class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark
+    const disqusConfig = {
+      identifier: post.frontmatter.title,
+      title: post.frontmatter.title
+    }
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next } = this.props.pageContext
 
@@ -70,6 +75,7 @@ class BlogPostTemplate extends React.Component {
             }
           </li>
         </ul>
+        <Disqus config={disqusConfig} />
       </Layout>
     )
   }
