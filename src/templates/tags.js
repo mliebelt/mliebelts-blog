@@ -35,7 +35,7 @@ const Tags = ({ pageContext, data }) => {
         <h1>{tagHeader}</h1>
         <Link to="/tags">All tags</Link>
         {
-          tag_page && (
+          (tag_page.edges.length != 0) && (
             <div dangerouslySetInnerHTML={{ __html: tag_page.edges[0].node.html }} />
           )
           

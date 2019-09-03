@@ -12,12 +12,12 @@ const Authors = ({ pageContext, data }) => {
   const { edges: books } = data.books
   let author = data.author
   let authorDesc
-  if (author) {
+  if (author.edges.length != 0) {
     author = data.author.edges[0].node.frontmatter
     authorDesc = data.author.edges[0].node.html
   } 
   //console.log(books)
-  console.log(author)
+  //console.log(author)
   return (
     <Layout location="/authors" title="mliebelt Starter Blog">
         <div>
@@ -35,7 +35,7 @@ const Authors = ({ pageContext, data }) => {
         <ul>
             {books.map(({ node }) => {
               // console.log("for author: " + node.frontmatter.author)
-              console.log(node)
+              // console.log(node)
             const { title } = node.frontmatter
             return (
               <Book key={title}
