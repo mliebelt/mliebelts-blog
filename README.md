@@ -6,7 +6,7 @@ This is my second try to have a starter blog on gh-pages. This time I try to use
 
 ## Visiting the site
 
-After deployment, the site should be visible under [https://mliebelt.github.io/mliebelts-blog](https://mliebelt.github.io/mliebelts-blog).
+After deployment, the site should be visible under [https://mliebelts-blog.netlify.com](https://mliebelt.github.io/mliebelts-blog).
 
 ## Further steps
 
