@@ -1,5 +1,5 @@
 ---
-title: Semnatic Versioning - How to use?
+title: Semantic Versioning - How to use?
 tags: ["semvers"]
 category: company
 date: 2019-10-13
