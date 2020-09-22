@@ -5,7 +5,7 @@ layout: post
 path: "/200808"
 category: "Category"
 posttype: "book"
-author: "J.J. Rowling"
+author: "J.K. Rowling"
 cover: "./stein-weisen.png"
 isbn: "3551354014"
 tags:
