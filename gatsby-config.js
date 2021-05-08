@@ -1,10 +1,9 @@
 module.exports = {
-  pathPrefix: '/mliebelts-blog',
   siteMetadata: {
     title: 'mliebelt Starter Blog',
     author: 'Markus Liebelt',
     description: 'My first blog in using Gatsby.js.',
-    siteUrl: 'https://mliebelt.github.io/mliebelts-blog',
+    siteUrl: 'https://https://mliebelts-blog.netlify.app/',
     social: {
       twitter: 'mliebelt',
       stackoverflow: 'mliebelt'
@@ -76,12 +75,7 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        //trackingId: `ADD YOUR TRACKING ID HERE`,
-      },
-    },
+    `gatsby-plugin-image`,
     `gatsby-plugin-feed`,
     {
       resolve: `gatsby-plugin-manifest`,
