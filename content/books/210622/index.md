@@ -14,6 +14,6 @@ tags:
 ---
 ## Die Serie geht weiter
 
-Die Suche nach den Hintermännern der entführung von Sophia geht weiter. Nach einem kurzen Abstecher im Schwarzwald kommt die Quadriga einem Artefakt auf die Spur, die nach Hamburg weist. Wie auch beim ersten Buch wird hier schön erzählt, es tauchen interessante Figuren auf, aber einiges ist dann doch etwas dich aufgetragen.
+Die Suche nach den Hintermännern der Entführung von Sophia geht weiter. Nach einem kurzen Abstecher im Schwarzwald kommt die Quadriga einem Artefakt auf die Spur, die nach Hamburg weist. Wie auch beim ersten Buch wird hier schön erzählt, es tauchen interessante Figuren auf, aber einiges ist dann doch etwas dich aufgetragen.
 
 Wie dann die Quadriga und zuvorderst Grayson Steel den Verursacher des Ärgers stellt, ist spannend erzählt ... Von daher, gerne etwas unglaubwürdig, wenn es dafür überraschende Wendungen gibt.
