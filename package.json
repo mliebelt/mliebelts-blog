@@ -47,6 +47,9 @@
   "keywords": [
     "gatsby"
   ],
+  "engines": {
+    "node": ">=0.14"
+  },
   "license": "MIT",
   "main": "n/a",
   "repository": {
