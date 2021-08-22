@@ -7,7 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Trudi Canavan"
 cover: "./novizin.png"
-isbn: "978-3-7341-0641-5"
+isbn: "9783641023225"
 tags:
   - "fantasy"
   - "reihe"

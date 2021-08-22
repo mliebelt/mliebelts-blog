@@ -7,7 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Ewald Arenz"
 cover: "./sommer.png"
-isbn: "978-3-7341-0641-5"
+isbn: "9783832170776"
 tags:
   - "roman"
 

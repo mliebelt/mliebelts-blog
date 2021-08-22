@@ -7,7 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Vicki Baum"
 cover: "./hotel.png"
-isbn: "978-3-7341-0641-5"
+isbn: "978-3-462-03798-2"
 tags:
   - "roman"
 

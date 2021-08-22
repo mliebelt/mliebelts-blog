@@ -7,7 +7,7 @@ category: "Category"
 posttype: "book"
 author: "Mela Nagel"
 cover: "./nachtgefangen.png"
-isbn: "978-3-7341-0641-5"
+isbn: "B081VMDVFV"
 tags:
   - "fantasy"
   - "reihe"
