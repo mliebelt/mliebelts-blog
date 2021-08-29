@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 
 function Isbn(props) {
   const isbn = props.children
-  const url = "https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&field-keywords=" + isbn
+  const url = "https://www.thalia.de/suche?filterPATHROOT=&sq=" + isbn
   
   let ele
   //console.log("ISBN: " + isbn)
