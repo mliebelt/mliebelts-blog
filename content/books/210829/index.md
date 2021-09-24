@@ -1,21 +1,21 @@
 ---
-title: "The Queen's Gambit"
+title: "The Unicorn Project: A Novel about Developers, Digitial Disruption, and Thriving in the Age of Data"
 date: "2021-08-29"
 layout: post
 path: "/210829"
 category: "Category"
 posttype: "book"
-author: "Walter Tevis"
-cover: "./queens.png"
-isbn: "978-1-4746-2257-8"
+author: "Gene Kim"
+cover: "./unicorn.png"
+isbn: "978-1-942788-76-8"
 tags:
   - "roman"
 
 ---
-## Ein Roman für Schachspieler
+## Ein Roman für DevOps
 
-... kann das gut gehen? Die meisten werden inzwischen die kurze Reihe auf Netflix gesehen haben, der Schachboom während der Pandemie wird zum Teil auf die Verfilmung zurückgeführt. Aber was bringt das Buch? Walter Tevis hat viele tolle Vorlagen für Verfilmungen geliefert, ist aber in Deutschland einem breiten Publikum leider nicht bekannt.
+Ich hatte das Buch schon vor einiger Zeit gekauft, da der Autor im entsprechenden Bereich eine Nummer ist, aber die schiere Anzahl der Seiten (> 900 in English) hat mich abgeschreckt. Der Versuch, dann immer einige Seiten nur zu lesen, hat das ganze dann noch verlängert. Als ich begonnen hatte, das Buch am Stück zu lesen, da hat es dann gezündet.
 
-Beth Harmon ist Waise. Ihre Mutter ist bei einem Autounfall umgekommen, und so kommt Beth ins Heim. Sie kommt mit der Situation so halbwegs klar, vor allem, nachdem sie die "Vitamine" (Beruhigungsmittel) auf Rat ihrer Freundin vor allem Nachts nimmt. Und dann gibt es da noch den Hausmeister, der für sich alleine in seinem Keller Stunde um Stunde Schach spielt. Beth wird angefixt, und es zeigt sich schnell ihr überragendes Talent, das ihr nach kurzer Zeit erlaubt, Simultan gegen die Schachgruppe an der Highschool zu spielen und zu gewinnen. Sie wird dann mit ~13 adoptiert, und entdeckt die Welt draußen, in der man auf Turnieren spielen (und gewinnen) kann. Und solange sie gewinnt und Preisgelder heimbringt, ist ihre Mutter auch begeistert.
+Worum geht es: Parts Unlimited hat immer noch viele Probleme (siehe der Vorgängerroman "The Phoenix Project"), und die werden anhand einer Gruppe von Leuten illustriert. Maxine wird firmenintern versetzt, und ihr schwant bald, dass das Ganze eine Strafe sein soll, ist das Projekt, in dem sie landet, ein heilloses Durcheinander (wie man es heutzutage in vielen vor allem großen Firmen immer wieder findet). Sie verbringt dann Wochen damit, den aktuellen Stand des Projekts bei sich lokal zum Laufen zu bekommen, und kommt dabei mit vielen Leuten in Kontakt. Nach und nach macht sie sich einen Namen, und findet Gleichgesinnte, die nicht bereit sind, das Durcheinander als Gegeben hinzunehmen.
 
-Wie sie am Ende die Schachwelt überrennt, und einen grandiosen Turniererfolg in Moskau, mit einer letzten Partie gegen den Weltmeister, erzielt, das ist ganz großes Kino, und das Buch hat (mindestens) die Qualität der Erzählung von Netflix. Es ist alles schon da, nur ist das Buch interessanterweise sehr viel geradliniger erzählt, mit weniger Psychologie usw. im Hintergrund. Von daher, für jeden Schachspieler eine Bereicherung, und für die anderen immer noch gut zu lesen.
+Wie die Gruppe von Leuten sich den Widerständen stellt, diese teils löst, auch Rückschläge hinnimmt, usw. usf. ist schön erzählt. Dass am Ende alles funktioniert, die Firma dann am Markt abhebt, das ist dann halt doch ein Roman und nicht sehr wirklichkeitsnah, aber was soll es. Unbedingt empfohlen, wenn jemand solche Projekte nicht kennt und verstehen möchte, wie Abläufe dort sind.
