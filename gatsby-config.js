@@ -6,15 +6,15 @@ module.exports = {
     siteUrl: 'https://https://mliebelts-blog.netlify.app/',
     social: {
       twitter: 'mliebelt',
-      stackoverflow: 'mliebelt'
-    }
+      stackoverflow: 'mliebelt',
+    },
   },
   plugins: [
     {
       resolve: `gatsby-plugin-disqus`,
       options: {
-        shortname: `mliebeltsblog`
-      }
+        shortname: `mliebeltsblog`,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
@@ -76,7 +76,10 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-image`,
-    `gatsby-plugin-feed`,
+    {
+      resolve: "gatsby-plugin-feed",
+      options: {},
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
