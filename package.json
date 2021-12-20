@@ -28,7 +28,9 @@
     "react-helmet": "^6.1.0",
     "typeface-merriweather": "^0.0.72",
     "typeface-montserrat": "^0.0.75",
-    "typography-theme-lawton": "^0.16.19"
+    "typography-theme-lawton": "^0.16.19",
+    "typography": "^0.16.21",
+    "react-typography": "^0.16.20"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.168",
