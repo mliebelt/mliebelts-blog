@@ -16,6 +16,7 @@ module.exports = {
         shortname: `mliebeltsblog`,
       },
     },
+
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -100,7 +101,7 @@ module.exports = {
                   date: node.frontmatter.date,
                   url: site.siteMetadata.siteUrl + node.fields.slug,
                   guid: site.siteMetadata.siteUrl + node.fields.slug,
-                  custom_elements: [{ "content:encoded": node.html }],
+                  custom_elements: [{ 'content:encoded': node.html }],
                 })
               })
             },
@@ -108,6 +109,7 @@ module.exports = {
               {
                 allMarkdownRemark(
                   sort: { order: DESC, fields: [frontmatter___date] },
+                   filter: {frontmatter: {posttype: {eq: "book"}}}
                 ) {
                   nodes {
                     excerpt
@@ -118,13 +120,54 @@ module.exports = {
                     frontmatter {
                       title
                       date
+                      cover {
+                       publicURL
+                      }
                     }
                   }
                 }
               }
             `,
-            output: "/rss.xml",
-            title: "mliebelt's blog RSS Feed",
+            output: '/rssbooks.xml',
+            title: 'mliebelt\'s book reading',
+          },
+          {
+            serialize: ({ query: { site, allMarkdownRemark } }) => {
+              return allMarkdownRemark.nodes.map(node => {
+                return Object.assign({}, node.frontmatter, {
+                  description: node.excerpt,
+                  date: node.frontmatter.date,
+                  url: site.siteMetadata.siteUrl + node.fields.slug,
+                  guid: site.siteMetadata.siteUrl + node.fields.slug,
+                  custom_elements: [{ 'content:encoded': node.html }],
+                })
+              })
+            },
+            query: `
+              {
+  allMarkdownRemark(
+    sort: {fields: frontmatter___date, order: ASC},
+    filter: {frontmatter: { posttype: { eq: "blog"}}}
+  ) {
+    nodes {
+      excerpt
+        html
+        fields { 
+                      slug 
+                    }
+        frontmatter {
+          title
+          date
+          cover {
+           publicURL
+          }
+        }
+    }
+  }
+}
+            `,
+            output: '/rssnews.xml',
+            title: 'mliebelt\'s blog entries',
           },
         ],
       },
