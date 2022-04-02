@@ -17,9 +17,11 @@ class BookIndex extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="Alle Bücher" keywords={['book']} />
+        <link rel="alternate" type="application/rss+xml" href="/rssbooks.xml" title="RSS Books" />
         <Bio />
         <Link to="/blogs">All Blogs</Link>
         <h1>Alle Bücher</h1>
+        <a href={'/rssbooks.xml'} type="application/rss+xml">RSS Books</a>
         {
           books.map(({ node }) => {
           //console.log(node)

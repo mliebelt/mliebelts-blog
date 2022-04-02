@@ -119,6 +119,8 @@ module.exports = {
                     }
                     frontmatter {
                       title
+                      author
+                      isbn
                       date
                       cover {
                        publicURL
