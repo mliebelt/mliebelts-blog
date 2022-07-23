@@ -18,7 +18,7 @@ class Book extends React.Component {
           }}
         >
           <Author>{author}</Author>:
-          <Link style={{ boxShadow: '2px 2px 3px #118888', padding: '2px', lineHeight: '1.4' }} to={link}>
+          <Link style={{ boxShadow: '2px 2px 3px #118888', padding: '5px', lineHeight: '1.4' }} to={link}>
             {title}
           </Link>
         </h3>
