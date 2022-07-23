@@ -8,7 +8,7 @@ function Isbn(props) {
   let ele
   //console.log("ISBN: " + isbn)
   if (isbn) {
-      ele = <span style={{display: 'inline', margin: '4px'}}>ISBN: <a href={url} target="_blank">{isbn}</a></span>
+      ele = <span style={{display: 'inline', margin: '4px'}}>ISBN: <a href={url} target="_blank" rel="noopener noreferrer">{isbn}</a></span>
   } else {
     ele = <span></span>
   }

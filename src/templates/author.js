@@ -25,9 +25,9 @@ const Authors = ({ pageContext, data }) => {
         {author && (
           <div>
             { author.homepage &&
-            <div><a href={author.homepage} target="_blank">Home Page</a></div>}
+            <div><a href={author.homepage} target="_blank" rel="noopener noreferrer">Home Page</a></div>}
             { author.wiki &&
-            <div><a href={author.wiki} target="_blank">Wikipedia</a></div>}
+            <div><a href={author.wiki} target="_blank" rel="noopener noreferrer">Wikipedia</a></div>}
             <div dangerouslySetInnerHTML={{ __html: authorDesc }} />
           </div>
         )
