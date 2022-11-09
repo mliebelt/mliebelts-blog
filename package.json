@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "author": "Markus Liebelt <mliebelt@hey.com>",
   "dependencies": {
-    "gatsby": "^4.11.1",
+    "gatsby": "^4.24.7",
     "gatsby-cli": "^4.11.1",
     "gatsby-plugin-disqus": "^1.2.3",
     "gatsby-plugin-feed": "^4.11.1",
