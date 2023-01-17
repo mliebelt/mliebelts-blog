@@ -12,7 +12,7 @@ tags:
   - "roman"
 
 ---
-## Was für ein Debut!
+## Was für ein Debüt!
 
 Kaum zu glauben, aber es ist das erste Buch, das Edgar Selge geschrieben hat. Der in Funk und Fernsehen vielbekannte vor allem Schauspieler hier in einer neuen Rolle.
 
