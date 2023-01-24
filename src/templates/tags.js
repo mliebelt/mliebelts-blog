@@ -95,10 +95,8 @@ export const pageQuery = graphql`
   query($tag: String) {
     books: allMarkdownRemark(
       limit: 2000
-      sort: { fields: [frontmatter___date], order: DESC }
-      filter: {
-      frontmatter: { tags: { in: [$tag] }, posttype: { eq: "book"} }
-    }
+      sort: { frontmatter: {date: DESC }}
+      filter: {frontmatter: { tags: { in: [$tag] }, posttype: { eq: "book"} } }
     ) {
       totalCount
       edges {
@@ -122,7 +120,7 @@ export const pageQuery = graphql`
     }
     tags: allMarkdownRemark(
       limit: 2000
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: {date: DESC } }
       filter: { frontmatter: { tags: { in: [$tag] }, posttype: { eq: "blog"} } }
     ) {
       totalCount
@@ -138,21 +136,18 @@ export const pageQuery = graphql`
     }
     tag: allMarkdownRemark(
       limit: 1
-      filter: {
-        frontmatter: { 
-          name: { eq: $tag},
-          posttype: { eq: "tag"} }
-      }) {
-        edges {
-          node {
-            html
-            frontmatter {
-              name
-              posttype
-            }
+      filter: { frontmatter: { name: { eq: $tag}, posttype: { eq: "tag"} } }
+    ) {
+      edges {
+        node {
+          html
+          frontmatter {
+            name
+            posttype
           }
         }
       }
+    }
   }
 
   `

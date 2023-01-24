@@ -86,9 +86,8 @@ export const pageQuery = graphql`
   query($author: String) {
     books: allMarkdownRemark(
       limit: 2000
-      sort: { fields: [frontmatter___date], order: DESC }
-      filter: {
-      frontmatter: { author: { eq: $author}, posttype: { eq: "book"}}
+      sort: { frontmatter: {date: DESC } }
+      filter: { frontmatter: { author: { eq: $author}, posttype: { eq: "book"}}
     }
     ) {
       edges {

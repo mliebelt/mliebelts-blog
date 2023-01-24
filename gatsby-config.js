@@ -108,8 +108,8 @@ module.exports = {
             query: `
               {
                 allMarkdownRemark(
-                  sort: { order: DESC, fields: [frontmatter___date] },
-                   filter: {frontmatter: {posttype: {eq: "book"}}}
+                  sort: { frontmatter: {date: DESC}}
+                  filter: {frontmatter: {posttype: {eq: "book"}}}
                 ) {
                   nodes {
                     excerpt
@@ -148,23 +148,23 @@ module.exports = {
             query: `
               {
   allMarkdownRemark(
-    sort: {fields: frontmatter___date, order: ASC},
-    filter: {frontmatter: { posttype: { eq: "blog"}}}
+    sort: {frontmatter: {date: ASC}}
+    filter: {frontmatter: {posttype: {eq: "blog"}}}
   ) {
     nodes {
       excerpt
         html
         fields { 
-                      slug 
-                    }
+          slug 
+        }
         frontmatter {
           title
           date
           cover {
-           publicURL
+            publicURL
           }
         }
-    }
+      }     
   }
 }
             `,
