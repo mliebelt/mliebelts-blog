@@ -63,11 +63,8 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(
-      limit: 2000
-    #   filter: { frontmatter: { published: { ne: false } } }
-    ) {
-      group(field: frontmatter___tags) {
+    allMarkdownRemark( limit: 2000 ){
+      group(field: {frontmatter: {tags:SELECT}}) {
         fieldValue
         totalCount
       }
